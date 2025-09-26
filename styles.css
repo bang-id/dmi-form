@@ -77,7 +77,7 @@
     background:url('/assets/start-bg.png') center/cover no-repeat;
     height: auto;                   /* hug content instead of fixed height */
     min-height: auto;               /* remove minimum height constraint */
-    padding: 84px;
+    padding: clamp(20px, 6vw, 96px);
   }
 
   /* Result screen styling */
@@ -702,7 +702,7 @@ html, body{ overflow:hidden; }
   --hero-mx: clamp(16px, 5vw, 56px);   /* left/right */
   --hero-my: clamp(20px, 6vw, 96px);   /* top/bottom */
 }
-
+/* 
 .hero{
   margin-inline: var(--hero-mx);
   margin-block: var(--hero-my);
@@ -711,4 +711,4 @@ html, body{ overflow:hidden; }
 .hero--start{
   margin-inline: var(--hero-mx);
   margin-block: var(--hero-my);
-}
+} */
