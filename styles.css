@@ -1,0 +1,714 @@
+/* ================== Tokens & Base ================== */
+:root{
+    /* Page & card spacing */
+    --page-gutter: clamp(16px, 4vw, 32px);
+    --card-pad-x: clamp(28px, 6vw, 42px);   /* strong minimum to avoid edge crowding */
+    --card-pad-y: clamp(28px, 5.5vw, 42px);
+    /* Card max width shared by start hero and form card */
+    --card-max-w: 1200px;
+
+    /* Color tokens */
+    --color-primary: #DB2229;   /* primary brand color */
+    --color-black:   #111;      /* base text color */
+    --color-gray:    #e7e7e7;   /* light gray for borders */
+    --color-text-gray: #0009;   /* text gray for labels */
+
+    /* result page vars */
+    --page-max: 1400px;                   /* page cap for very wide screens */
+    --page-pad: clamp(16px, 4vw, 40px);   /* outer breathing room */
+    --text: #EDEDED;                      /* default light text */
+    --muted: #ffffffb3;                   /* 70% white */
+    --muted-2: #ffffff80;                 /* 50% white */
+    --rule: #ffffff1a;                    /* hairline rule */
+    --cta-bg: #ffffff12;
+    --cta-bg-hover: #ffffff1f;
+    --cta-border: #ffffff24;
+    --cta-text: #EDEDED;
+  }
+  
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html, body{ height:100%; }
+  body{
+    font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background:#f5f5f5;
+    color:var(--color-black);
+  }
+  
+  /* ================== Layout ================== */
+  .page{
+    min-height:100dvh;             /* full viewport height incl. dynamic UI */
+    display:flex;
+    align-items:flex-start;        /* align to top instead of center */
+    justify-content:center;        /* center horizontally */
+    padding:clamp(12px, 2vw, 20px);
+    padding-top:clamp(12px, 2vw, 20px); /* reduced top spacing */
+  }
+
+  /* Center the start screen only */
+  .page:has(.hero--start) {
+    align-items:center;            /* center the start screen vertically */
+  }
+
+  /* Result screens span full viewport */
+  .page:has(.hero--result) {
+    padding: 0;                    /* remove all padding */
+    min-height: 100vh;             /* full viewport height */
+  }
+  
+.hero{
+    width: var(--card-max-w);       /* fixed width, no min() variation */
+    max-width: calc(100vw - 2 * clamp(12px, 2vw, 20px)); /* respect viewport margins */
+    height: calc(100vh - 2 * clamp(12px, 2vw, 20px)); /* fit within viewport */
+    max-height: 95vh;               /* increased from 90vh for more height */
+    margin-inline: auto;
+    padding-inline: var(--card-pad-x);
+    padding-top: var(--card-pad-y);
+    padding-bottom: 0;              /* remove bottom padding */
+    border-radius:18px;
+    position:relative;
+    overflow:hidden;                /* keeps rounded corners clean */
+    isolation:isolate;
+    background:#fff;                /* default plain background */
+    font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  /* Image background only on the start screen */
+  .hero--start{
+    background:url('/assets/start-bg.png') center/cover no-repeat;
+    height: auto;                   /* hug content instead of fixed height */
+    min-height: auto;               /* remove minimum height constraint */
+    padding: 84px;
+  }
+
+  /* Result screen styling */
+  .hero--result{
+    width: 100vw;                   /* full viewport width */
+    max-width: none;                /* remove width constraints */
+    height: 100vh;                  /* full viewport height */
+    min-height: 100vh;              /* ensure minimum full height */
+    padding: 84px;
+    text-align: center;             /* center all content */
+    margin: 0;                      /* remove any margins */
+    border-radius: 0;               /* remove border radius for full screen */
+    position: relative;             /* for layering */
+    background: #000000 !important; /* solid black background */
+  }
+
+  /* Gradient overlay with opacity */
+  .hero--result::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;           /* don't interfere with content */
+    z-index: 0;                    /* behind content */
+  }
+
+  /* Specific gradients for each result level */
+  .hero--result.starter::before {
+    background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(132, 94, 24, 0.32) 0%, rgba(132, 94, 24, 0.00) 100%), #000;
+  }
+
+  .hero--result.explorer::before {
+    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(65, 105, 225, 0.32) 0%, rgba(27, 41, 81, 0.00) 100%), #000;
+  }
+
+  .hero--result.strategist::before {
+    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(50, 205, 50, 0.32) 0%, rgba(27, 77, 27, 0.00) 100%), #000;
+  }
+
+  .hero--result.innovator::before {
+    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(255, 99, 71, 0.32) 0%, rgba(77, 31, 26, 0.00) 100%), #000;
+  }
+
+  .hero--result.visionary::before {
+    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(153, 50, 204, 0.32) 0%, rgba(45, 27, 77, 0.00) 100%), #000;
+  }
+
+  /* Ensure content appears above gradient overlay */
+  .hero--result .hero__inner {
+    position: relative;
+    z-index: 1;                    /* above the gradient overlay */
+  }
+
+  .result-gem {
+    margin-bottom: 48px;
+  }
+
+  .result-gem img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+  }
+
+  .result-intro {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
+
+  .result-title {
+    color: #FFD700;                 /* gold color for the title */
+    font-weight: 400;
+    font-size: clamp(48px, 6vw, 72px);
+    line-height: 1.1;
+    letter-spacing: clamp(-2px, -0.5vw, -8px);
+    margin-bottom: 16px;
+    mix-blend-mode: color-dodge;    /* blend mode for consistent color */
+  }
+
+  .result-subtitle {
+    color: #fff;
+    font-size: clamp(18px, 2vw, 24px);
+    margin-bottom: 64px;
+    opacity: 0.95;
+  }
+
+  .result-section {
+    margin-bottom: 48px;
+  }
+
+  .result-description {
+    color: #fff;
+    font-weight: 600;
+    font-size: clamp(20px, 2.5vw, 28px);
+    margin-bottom: 24px;
+  }
+
+  .result-text {
+    color: #fff;
+    font-size: clamp(16px, 1.8vw, 20px);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.95;
+  }
+
+  .result-cta {
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(10px);
+  }
+
+  .result-cta:hover {
+    background: rgba(0,0,0,0.9);
+    border-color: rgba(255,255,255,0.5);
+  }
+  
+  .hero__inner{
+    /* Respect notches; never go below var minima */
+    display:flex;               /* allow footer to sit at the bottom */
+    flex-direction:column;
+    padding:0;
+    width:100%;
+    max-width:100%;             /* ensure inner never exceeds container */
+    box-sizing:border-box;      /* include padding in width calculations */
+    height:100%;                /* fill the hero container height */
+    position:relative;          /* for footer positioning */
+  }
+  
+  /* ================== Content ================== */
+  .hero__title{
+    color:#fff;
+    font-weight:400;
+    font-size:clamp(36px, 4vw, 60px);
+    line-height:1.2;
+    /* tighter tracking across sizes */
+    letter-spacing:clamp(-1.2px, -0.35vw, -7.6px);
+    max-width:28ch;
+    margin-bottom:clamp(24px, 3vw, 54px);
+    text-wrap:balance;
+    font-kerning:normal;
+    font-variant-ligatures:common-ligatures contextual;
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+  }
+  
+  .cta-button{
+    font:600 clamp(14px, 1.5vw, 18px) 'Inter', sans-serif;
+    color:var(--color-black);
+    background:#fff;
+    border:0;
+    border-radius:999px;
+    padding:16px 32px;
+    display:inline-flex;           /* do not stretch full width */
+    align-items:center;
+    justify-content:center;
+    align-self:flex-start;         /* override container stretch */
+    cursor:pointer;
+    transition:transform .06s ease, background-color .2s ease, color .2s ease;
+    margin-bottom:clamp(28px, 6vw, 40px);
+    text-decoration: none;
+  }
+.cta-button:hover{ background:var(--color-black); color:#fff; }
+  .cta-button:active{ transform:translateY(1px); }
+  
+  /* ================== Separator & Fact ================== */
+  /* Run full width within the card’s inner padding */
+  .separator{
+    height:1px;
+    width:100%;
+    background:rgba(206, 206, 206, 1);
+    margin:clamp(36px, 7vw, 100px) 0 clamp(24px, 5vw, 81px);
+    mix-blend-mode: color-dodge;
+  }
+  
+  .fact{
+    width:100%;
+    max-width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:18px 20px;              /* fixed floor for internal breathing room */
+    border-radius:12px;
+    background:rgba(255, 255, 255, 0.1);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    color:#fff;
+
+  }
+  
+  .fact__label{
+    font-weight:700;
+    font-size:18px;
+    opacity:.95;
+  }
+  .fact__content{
+    font-weight:400;
+    font-size:18px;
+    line-height:1.55;
+    opacity:.95;
+  }
+  
+  /* ================== Responsive Tweaks ================== */
+  @media (max-width: 768px){
+    .fact__label,
+    .fact__content{ font-size:16px; }
+  }
+  
+  /* Responsive: Small phones (420px and below) */
+  @media (max-width: 420px){
+    :root{
+      --page-gutter:18px;
+      --card-pad-x:20px;   /* consolidated from duplicate rule */
+      --card-pad-y:24px;   /* consolidated from duplicate rule */
+    }
+    .separator{ margin:28px 0 22px; }
+  }
+
+/* ================== Form Layout ================== */
+
+/* ---------- Fixed header for title/subtitle ---------- */
+.form-header{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index:10;                     /* higher than content */
+  background:#fff;                /* solid background */
+  border-bottom:1px solid var(--color-gray); /* bottom border instead of top */
+  display:flex; 
+  flex-direction:column;          /* stack title and subtitle vertically */
+  align-items:flex-start;         /* align to left like original layout */
+  gap:16px; 
+  padding-bottom:clamp(16px, 5vw, 32px);
+}
+
+/* ---------- Scrollable content area ---------- */
+.form-content{
+  position:absolute;              /* absolute positioning for proper height calculation */
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  overflow-y:auto;                /* scroll when needed */
+  padding-top: 139px;    /* mobile to desktop padding */
+  padding-bottom: 139px; /* mobile to desktop padding */
+}
+
+/* Subtle scrollbar styling */
+.form-content::-webkit-scrollbar {
+  width: 14px;                    /* width to accommodate margin */
+}
+
+.form-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-content::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 3px;
+  border-left: 8px solid transparent;  /* creates 8px margin from content (emojis) */
+  background-clip: content-box;        /* ensures background only shows in content area */
+}
+
+.form-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.2);
+  background-clip: content-box;   /* maintains background clipping on hover */
+}
+
+/* ---------- Form headings ---------- */
+.form-h2{ 
+  color:var(--color-black); 
+  font-weight:400; 
+  font-size: clamp(26px, 2.4vw, 36px); 
+  letter-spacing: clamp(-1.2px, -0.35vw, -7.6px);
+  margin:0;
+}
+
+.form-sub{ color:var(--color-text-gray); margin:0; }
+
+/* ---------- Two-column numbered grid ---------- */
+.grid2{ display:grid; grid-template-columns:1fr; gap:28px 48px; margin-top:32px; }
+@media (min-width: 900px){ .grid2{ grid-template-columns:1fr 1fr; } }
+.numbered{ counter-reset: fld; }
+.numbered > li::marker{ content: none; }
+.numbered > li{ position:relative; padding-left:44px; list-style:none; }
+.numbered > li::before{
+  counter-increment: fld;
+  content: counter(fld);
+  position:absolute; left:0; top:2px; color:#0008; font-size:18px;
+  width:26px; text-align:center;
+}
+
+.field{ display:flex; flex-direction:column; gap:10px; }
+.label{ color:#000d; font-size:18px; line-height:27px; }
+
+/* Underline inputs */
+.input-underline{
+  width:100%;
+  border:none; outline:none; background:transparent; color:var(--color-black);
+  padding:10px 0 8px;
+  border-bottom:2px solid var(--color-gray);
+  font-size:18px;
+  line-height:27px;
+}
+/* Ensure all form controls in hero inherit Inter */
+.hero input,
+.hero select,
+.hero textarea,
+.hero button,
+.hero .input-underline {
+  font-family: inherit;
+}
+.input-underline::placeholder{ color:#0005; }
+.input-underline:focus{ border-bottom-color:#d0d0d0; }
+
+/* Select chevron */
+.select-wrap{ position:relative; }
+.select-wrap .chev{ position:absolute; right:0; bottom:10px; color:#0007; pointer-events:none; }
+
+/* ---------- Likert rows (5 emoji) ---------- */
+.likert-rows{ display:grid; gap:16px; margin:0; }
+
+/* Add spacing between form fields and likert questions on org screen only */
+.grid2.numbered + .likert-rows {
+  margin-top: 64px;
+}
+.likert-row{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center; 
+  gap:16px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--color-gray);
+}
+
+.likert-row:last-child{
+  border-bottom:none;
+  padding-bottom:0;
+}
+.likert-label{ 
+  display:flex; 
+  gap:18px; 
+  align-items:start; 
+  max-width: 80%;
+  font-size:18px;
+  line-height:27px;
+}
+.row-num{ color:#0008; font-size:18px; width:26px; text-align:center; }
+
+.likert5{ display:flex; gap:12px; }
+.emoji-btn{
+  width:44px; height:44px; border-radius:12px;
+  border:none;
+  background:#ebebeb;
+  display:grid; 
+  place-items:center; 
+  font-size:28px; 
+  cursor:pointer;
+  margin: 2px;
+}
+.emoji-btn.active{
+  background: var(--color-black);     /* subtle focus ring like your mock */
+  
+}
+
+/* ---------- Buttons + footer actions ---------- */
+.form-cta{ display:flex; justify-content:flex-end; gap:12px; margin-top:24px; }
+
+/* Footer row: progress on left, buttons on right */
+.form-footer{ 
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:10;                     /* higher than content */
+  background:#fff;                /* solid background */
+  border-top:1px solid #f0f0f0;   /* subtle separator */
+  display:flex; 
+  align-items:center; 
+  justify-content:space-between; 
+  gap:16px; 
+  padding-top:clamp(12px, 5vw, 24px);
+  padding-bottom:clamp(16px, 5vw, 32px);
+  border-top:1px solid var(--color-gray);
+}
+
+.form-footer .form-cta{ margin-top:0; }
+.form-footer .progress-rail{ margin-top:0; }
+.btn.primary{ background:var(--color-primary); color:#fff; border:none; border-radius:999px; padding:12px 24px; font-size:16px; cursor:pointer;}
+.btn.ghost{ background:#fff; color:var(--color-black); border:1px solid #e0e0e0; border-radius:999px; padding:12px 24px; font-size:16px; cursor:pointer;}
+
+/* ---------- Progress ---------- */
+.progress-rail{
+  height:10px; width:220px; background:#eee; border-radius:999px;
+  margin-top:16px;
+}
+.progress-fill{
+  height:100%; background:var(--color-black); border-radius:999px;
+  width:0%;
+  transition: width .3s ease;
+}
+
+/* ================== Responsive Design ================== */
+
+/* Mobile overflow and layout adjustments */
+@media (max-width: 480px){
+  .hero{ overflow:visible; }
+}
+
+/* Flex wrapping for mobile */
+.form-footer{ flex-wrap: wrap; gap:12px; }
+.likert5{ flex-wrap: wrap; }
+
+/* Progress bar constraints */
+.progress-rail{ 
+  width:100%;
+  max-width: 220px;
+  margin-bottom: 16px;
+}
+
+/* Prevent page scrolling */
+html, body{ overflow:hidden; }
+
+/* Very small screens (320px) - emoji wrapping */
+@media (max-width: 320px){
+  .likert5{ 
+    flex-wrap: wrap;                /* allow emojis to wrap to next line */
+    gap:8px;                        /* slightly reduce gap for better fit */
+  }
+  .likert-row .likert5{
+    flex-wrap: wrap !important;     /* override the nowrap from mobile styles */
+  }
+}
+
+/* Stack Q + Likert vertically on mobile */
+@media (max-width: 580px){
+  .likert-row{
+    grid-template-columns: 1fr;   /* one column */
+    gap: 16px;
+    padding-top: 24px;
+  }
+  /* keep the emoji row left-aligned and not stretched */
+  .likert-row .likert5{
+    align-self: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;            /* or 'wrap' if you prefer 2 lines */
+    gap: 10px;
+    padding-left: 24px;
+  }
+  /* tighten sizes for small screens (optional) */
+  .emoji-btn{ width:40px; height:40px; border-radius:10px; }
+  .likert-rows{ gap:16px; }       /* a bit tighter vertical rhythm */
+
+  /* progress bar takes the first full row */
+  .progress-rail{
+    flex: 0 0 100%;
+    width: 100% !important;
+    max-width: none;
+  }
+
+  /* buttons take the second full row, split equally */
+  .form-cta{
+    flex: 0 0 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .form-cta .btn{
+    width: 100%;         /* make each button fill its grid cell */
+  }
+}
+
+
+/* result page css */
+
+/* A simple centering wrapper (optional) */
+.result-wrap{
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: var(--page-pad);
+  /* Important: let blend modes hit the page gradient behind */
+  isolation: isolate;
+}
+
+/* ====== Gem ====== */
+.result-gem{
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  margin-top: clamp(28px, 7vw, 80px);
+  margin-bottom: clamp(24px, 5vw, 56px);
+  width: clamp(160px, 22vw, 360px);   /* fluid width */
+  aspect-ratio: 1 / 1;                /* keep square footprint */
+}
+.result-gem img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;                /* keep image intact */
+  display: block;
+  /* optional soft glow; remove if you don’t want it */
+}
+
+/* ====== Title block ====== */
+.result-content{
+  text-align: center;
+  margin-inline: auto;
+  max-width: min(100%, 900px);
+}
+
+.result-intro{
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--muted-2);
+  font-size: clamp(14px, 1.4vw, 18px);
+  margin-bottom: clamp(6px, .8vw, 10px);
+}
+
+.result-title{
+  /* You asked for color-dodge and #D8D8D8 */
+  color: #D8D8D8;
+  mix-blend-mode: color-dodge;
+  line-height: .96;
+  font-weight: 700;
+  font-size: clamp(44px, 9vw, 112px); /* big & fluid */
+  letter-spacing: .01em;
+  margin-bottom: clamp(10px, 1.2vw, 14px);
+}
+
+.result-subtitle{
+  color: var(--muted);
+  font-weight: 500;
+  font-size: clamp(16px, 2.1vw, 24px);
+  line-height: 1.35;
+  margin-bottom: clamp(28px, 5vw, 56px);
+}
+
+/* ====== Section (rule + left-aligned copy block) ====== */
+.result-section{
+  position: relative;
+  margin-top: clamp(24px, 6vw, 60px);
+  padding-top: clamp(18px, 2.2vw, 26px);
+}
+
+/* Hairline rule centered across the page, like the screenshot */
+.result-section::before{
+  content:"";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: min(82vw, 1100px);
+  height: 1px;
+  background: var(--rule);
+}
+
+/* The copy sits left within the page like the mock.
+   We nudge it from the left edge using a fluid inset. */
+.result-section-inner{
+  max-width: 720px;
+  margin-left: clamp(0px, 12vw, 360px);
+}
+
+/* If you don't have an inner wrapper, apply these to .result-section instead. */
+
+/* Headline in section */
+.result-description{
+  font-weight: 700;
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: var(--text);
+  margin-bottom: clamp(10px, 1.6vw, 14px);
+}
+
+/* Body copy */
+.result-text{
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1.6;
+  font-size: clamp(14px, 1.6vw, 18px);
+  max-width: 60ch;
+  margin-bottom: clamp(18px, 2.2vw, 26px);
+}
+
+/* ====== CTA ====== */
+.result-cta{
+  display: inline-block;
+  appearance: none;
+  border: 1px solid var(--cta-border);
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  padding: clamp(10px, 1.2vw, 14px) clamp(16px, 2vw, 22px);
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: background .2s ease, transform .08s ease, border-color .2s ease;
+}
+.result-cta:hover{ background: var(--cta-bg-hover); border-color: #ffffff36; }
+.result-cta:active{ transform: translateY(1px); }
+
+/* ====== Small layout helpers ====== */
+@media (max-width: 720px){
+  /* Let the section copy align with page padding on small screens */
+  .result-section-inner{ margin-left: 0; max-width: 100%; }
+}
+
+/* Reduced motion nicety */
+@media (prefers-reduced-motion: reduce){
+  .result-cta{ transition: none; }
+}
+
+/* Fluid margins just for .hero and .hero--start */
+:root{
+  /* tweak once, scales everywhere */
+  --hero-mx: clamp(16px, 5vw, 56px);   /* left/right */
+  --hero-my: clamp(20px, 6vw, 96px);   /* top/bottom */
+}
+
+.hero{
+  margin-inline: var(--hero-mx);
+  margin-block: var(--hero-my);
+}
+
+.hero--start{
+  margin-inline: var(--hero-mx);
+  margin-block: var(--hero-my);
+}
