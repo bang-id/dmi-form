@@ -86,7 +86,7 @@
     max-width: none;                /* remove width constraints */
     height: 100vh;                  /* full viewport height */
     min-height: 100vh;              /* ensure minimum full height */
-    padding: 84px;
+    padding: 20px;
     text-align: center;             /* center all content */
     margin: 0;                      /* remove any margins */
     border-radius: 0;               /* remove border radius for full screen */
@@ -106,99 +106,12 @@
     z-index: 0;                    /* behind content */
   }
 
-  /* Specific gradients for each result level */
-  .hero--result.starter::before {
-    background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(132, 94, 24, 0.32) 0%, rgba(132, 94, 24, 0.00) 100%), #000;
-  }
-
-  .hero--result.explorer::before {
-    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(65, 105, 225, 0.32) 0%, rgba(27, 41, 81, 0.00) 100%), #000;
-  }
-
-  .hero--result.strategist::before {
-    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(50, 205, 50, 0.32) 0%, rgba(27, 77, 27, 0.00) 100%), #000;
-  }
-
-  .hero--result.innovator::before {
-    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(255, 99, 71, 0.32) 0%, rgba(77, 31, 26, 0.00) 100%), #000;
-  }
-
-  .hero--result.visionary::before {
-    background: radial-gradient(54.58% 72.41% at 50% 27.59%, rgba(153, 50, 204, 0.32) 0%, rgba(45, 27, 77, 0.00) 100%), #000;
-  }
-
   /* Ensure content appears above gradient overlay */
   .hero--result .hero__inner {
     position: relative;
     z-index: 1;                    /* above the gradient overlay */
   }
 
-  .result-gem {
-    margin-bottom: 48px;
-  }
-
-  .result-gem img {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-  }
-
-  .result-intro {
-    color: #fff;
-    font-size: 18px;
-    margin-bottom: 8px;
-    opacity: 0.9;
-  }
-
-  .result-title {
-    color: #FFD700;                 /* gold color for the title */
-    font-weight: 400;
-    font-size: clamp(48px, 6vw, 72px);
-    line-height: 1.1;
-    letter-spacing: clamp(-2px, -0.5vw, -8px);
-    margin-bottom: 16px;
-    mix-blend-mode: color-dodge;    /* blend mode for consistent color */
-  }
-
-  .result-subtitle {
-    color: #fff;
-    font-size: clamp(18px, 2vw, 24px);
-    margin-bottom: 64px;
-    opacity: 0.95;
-  }
-
-  .result-section {
-    margin-bottom: 48px;
-  }
-
-  .result-description {
-    color: #fff;
-    font-weight: 600;
-    font-size: clamp(20px, 2.5vw, 28px);
-    margin-bottom: 24px;
-  }
-
-  .result-text {
-    color: #fff;
-    font-size: clamp(16px, 1.8vw, 20px);
-    line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
-    opacity: 0.95;
-  }
-
-  .result-cta {
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-    backdrop-filter: blur(10px);
-  }
-
-  .result-cta:hover {
-    background: rgba(0,0,0,0.9);
-    border-color: rgba(255,255,255,0.5);
-  }
-  
   .hero__inner{
     /* Respect notches; never go below var minima */
     display:flex;               /* allow footer to sit at the bottom */
@@ -573,14 +486,14 @@ html, body{ overflow:hidden; }
   display: grid;
   place-items: center;
   margin-inline: auto;
-  margin-top: clamp(28px, 7vw, 80px);
-  margin-bottom: clamp(24px, 5vw, 56px);
+  margin-top: clamp(12px, 7vw, 32px);
+  margin-bottom: clamp(16px, 5vw, 32px);
   width: clamp(160px, 22vw, 360px);   /* fluid width */
   aspect-ratio: 1 / 1;                /* keep square footprint */
 }
 .result-gem img{
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;                /* keep image intact */
   display: block;
   /* optional soft glow; remove if you don’t want it */
@@ -594,10 +507,9 @@ html, body{ overflow:hidden; }
 }
 
 .result-intro{
-  font-weight: 500;
-  letter-spacing: .02em;
-  color: var(--muted-2);
-  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.70);
+  font-size: 16px;
   margin-bottom: clamp(6px, .8vw, 10px);
 }
 
@@ -605,17 +517,18 @@ html, body{ overflow:hidden; }
   /* You asked for color-dodge and #D8D8D8 */
   color: #D8D8D8;
   mix-blend-mode: color-dodge;
-  line-height: .96;
-  font-weight: 700;
-  font-size: clamp(44px, 9vw, 112px); /* big & fluid */
-  letter-spacing: .01em;
-  margin-bottom: clamp(10px, 1.2vw, 14px);
+  font-size: clamp(42px, 9vw, 80px); /* big & fluid */
+  margin-bottom: clamp(16px, 1.2vw, 32px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 72px;
+  letter-spacing: clamp(-1px, 9vw, -3.6px);
 }
 
 .result-subtitle{
-  color: var(--muted);
-  font-weight: 500;
-  font-size: clamp(16px, 2.1vw, 24px);
+  color: #fff;
+  font-weight: 400;
+  font-size: clamp(16px, 2.1vw, 20px);
   line-height: 1.35;
   margin-bottom: clamp(28px, 5vw, 56px);
 }
@@ -625,18 +538,17 @@ html, body{ overflow:hidden; }
   position: relative;
   margin-top: clamp(24px, 6vw, 60px);
   padding-top: clamp(18px, 2.2vw, 26px);
+  align-items: start;
+  width: 70%;
+  max-width: 700px;
+  align-self: center;
 }
-
-/* Hairline rule centered across the page, like the screenshot */
-.result-section::before{
-  content:"";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 0;
-  width: min(82vw, 1100px);
+.line{
   height: 1px;
-  background: var(--rule);
+  background:rgb(146, 146, 146);
+  width: 100%;
+  margin-bottom: clamp(16px, 6vw, 32px);
+  mix-blend-mode: color-dodge;
 }
 
 /* The copy sits left within the page like the mock.
@@ -644,46 +556,94 @@ html, body{ overflow:hidden; }
 .result-section-inner{
   max-width: 720px;
   margin-left: clamp(0px, 12vw, 360px);
+  display: flex;                 /* or: display:grid */
+  flex-direction: column;        /* grid alt: justify-items: start; */
+  align-items: flex-start;
+  text-align: left;
 }
 
 /* If you don't have an inner wrapper, apply these to .result-section instead. */
 
 /* Headline in section */
 .result-description{
-  font-weight: 700;
-  font-size: clamp(16px, 1.8vw, 20px);
-  color: var(--text);
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
   margin-bottom: clamp(10px, 1.6vw, 14px);
+  text-align: left;
 }
 
 /* Body copy */
 .result-text{
-  color: var(--muted);
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
   line-height: 1.6;
-  font-size: clamp(14px, 1.6vw, 18px);
-  max-width: 60ch;
+  font-size: 16px;
+  width: 100%;
   margin-bottom: clamp(18px, 2.2vw, 26px);
+  text-align: left;
 }
 
 /* ====== CTA ====== */
 .result-cta{
   display: inline-block;
   appearance: none;
-  border: 1px solid var(--cta-border);
-  background: var(--cta-bg);
-  color: var(--cta-text);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
   padding: clamp(10px, 1.2vw, 14px) clamp(16px, 2vw, 22px);
   border-radius: 9999px;
   font-weight: 600;
   font-size: clamp(14px, 1.5vw, 16px);
   line-height: 1;
   cursor: pointer;
-  backdrop-filter: blur(2px);
   transition: background .2s ease, transform .08s ease, border-color .2s ease;
+  align-self: flex-start; 
 }
+
 .result-cta:hover{ background: var(--cta-bg-hover); border-color: #ffffff36; }
 .result-cta:active{ transform: translateY(1px); }
+
+  /* Specific gradients for each result level */
+  .hero--result.starter::before {
+    background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(132, 94, 24, 0.32) 0%, rgba(132, 94, 24, 0.00) 100%), #000;
+  }
+
+  .hero--result.connector::before {
+    background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(246, 246, 246, 0.32) 0%, rgba(246, 246, 246, 0) 100%), #000;
+  }
+
+  .hero--result.architect::before {
+    background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(228, 182, 26, 0.32) 0%, rgba(228, 182, 26, 0) 100%), #000;
+  }
+
+  .hero--result.scientist::before {
+    background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(10, 172, 188, 0.32) 0%, rgba(10, 172, 188, 0) 100%), #000;
+  }
+
+  .hero--result.visionary::before {
+    background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(190, 71, 229, 0.32) 0%, rgba(190, 71, 229, 0) 100%), #000;
+  }
+
+  /* Specific title colors for each result level */
+  .hero--result.starter .result-title {
+    color: #D4A574; /* Warm bronze/gold */
+  }
+
+  .hero--result.connector .result-title {
+    color: #fff; /* Teal/green */
+  }
+
+  .hero--result.architect .result-title {
+    color: #E4B61A; /* Golden yellow */
+  }
+
+  .hero--result.scientist .result-title {
+    color: #0AACBC; /* Cyan/blue */
+  }
+
+  .hero--result.visionary .result-title {
+    color: #BE47E5; /* Purple/magenta */
+  }
 
 /* ====== Small layout helpers ====== */
 @media (max-width: 720px){
@@ -712,3 +672,33 @@ html, body{ overflow:hidden; }
   margin-inline: var(--hero-mx);
   margin-block: var(--hero-my);
 } */
+
+/* Center the section itself on the page */
+.result-section{
+  position: relative;
+  width: min(70%, 700px);
+  margin-inline: auto;        /* centers the block */
+  margin-top: clamp(24px, 6vw, 60px);
+  padding-top: clamp(18px, 2.2vw, 26px);
+  text-align: left;           /* override any inherited centering */
+}
+
+/* Left-aligned column inside */
+.result-section-inner{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;     /* left edge for children */
+  max-width: 720px;
+  margin-left: clamp(0px, 12vw, 360px); /* your “nudge” */
+}
+
+/* Text */
+.result-description,
+.result-text{ text-align: left; }
+
+/* CTA: ensure no auto-centering applies */
+.result-cta{
+  display: inline-flex;        /* prevents full-width behavior */
+  align-self: flex-start;      /* pin to left within the column */
+  margin-top: 24px;                   /* neutralize margin: 0 auto; utilities */
+}

@@ -48,13 +48,13 @@ export default function DMIResult() {
           </div>
 
           <div className="result-section">
+            <div className="line"></div>
             <h2 className="result-description">{result.description}</h2>
             <p className="result-text">{result.content}</p>
+            <button className="cta-button result-cta">
+              {result.buttonText}
+            </button>
           </div>
-
-          <button className="cta-button result-cta">
-            {result.buttonText}
-          </button>
         </div>
       </section>
     </div>
