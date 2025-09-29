@@ -3,6 +3,7 @@ node_modules/
 .vite/
 vite.svg
 .eslintcache
+dist/
 
 # Env & local configs
 .env
