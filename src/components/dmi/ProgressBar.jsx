@@ -15,7 +15,7 @@ export default function ProgressBar({ value = 0 }){
     '#52c41a', // green
   ];
   const stepIdx = Math.min(steps.length - 1, Math.max(0, Math.ceil((value * steps.length)) - 1));
-  const fillColor = palette[Math.min(stepIdx, palette.length - 1)];
+  const fillColor = 'var(--color-black)';
   const total = Math.max(1, steps.length - 1);
   const targetPct = Math.min(100, Math.max(0, (stepIdx / total) * 100));
   const adjustedTargetPct = stepIdx === 0 ? Math.max(targetPct, 2) : targetPct; // ensure a small visible cap at step 1
@@ -46,19 +46,17 @@ export default function ProgressBar({ value = 0 }){
       <div className="progress-fill" style={{ width: `${barPct}%`, background: fillColor }} />
       <ol className="progress-checkpoints">
         {steps.map((s, i) => {
-          const posPct = (i / total) * 100; // 0% .. 100%
           const reached = i <= filledIdx;
           // All reached checkpoints should adopt the current rail color (fillColor)
           return (
             <li
               key={s.id}
               className={`pc ${reached ? 'reached' : ''}`}
-              style={{ left: `${posPct}%` }}
             >
               <span
                 className="pc-dot"
                 style={{
-                  '--pc-color': fillColor,
+                  '--pc-color': 'var(--color-black)',
                   '--pc-fill-w': reached ? '100%' : '0%'
                 }}
               >

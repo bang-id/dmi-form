@@ -431,7 +431,7 @@
   display:flex; 
   align-items:center; 
   justify-content:space-between; 
-  gap:16px; 
+  gap:24px; 
   padding-top:clamp(12px, 5vw, 24px);
   padding-bottom:clamp(16px, 5vw, 32px);
   border-top:1px solid var(--color-gray);
@@ -447,33 +447,48 @@
 /* ---------- Progress ---------- */
 .progress-rail{
   position:relative;
-  height:14px; width:400px; background:#eee; border-radius:999px;
-  margin-top:16px;
+  height:40px; width:auto; background:transparent;
+  margin-top:0;               /* align with buttons */
+  flex: 1 1 auto;             /* occupy left side, leave space for buttons */
+  min-width: 0;               /* allow shrinking without overflow */
+  display: flex;
+  align-items: center;
+  /* checkpoint sizing + spacing */
+  --pc-size: 40px;
+  --pc-gap: 8px;
+  /* do not shrink below the total intrinsic width of checkpoints */
+  min-width: calc(7 * var(--pc-size) + 6 * var(--pc-gap));
+}
+.progress-rail::before{
+  /* rail hidden for now */
+  display:none;
 }
 .progress-fill{
-  position:absolute; left:0; top:0; bottom:0;
-  height:100%; border-radius:999px;
-  width:0%;
-  transition: width .45s cubic-bezier(.22,.61,.36,1), background-color .45s linear;
+  /* hidden while rail is disabled */
+  display:none;
 }
 .progress-checkpoints{ 
   list-style:none; 
   padding:0; 
   margin:0; 
-  text-align:center; 
+  display:flex; 
+  align-items:center; 
+  flex-wrap: nowrap;         /* single row */
+  max-width: 100%;           /* never exceed rail width */
+  gap: var(--pc-gap);        /* reduced spacing */
   font-family:inherit; 
   font-size:16px; 
   font-weight:600;}
 
-.progress-checkpoints .pc{ position:absolute; top:50%; transform:translate(-50%, -50%); width:36px; height:36px; }
+.progress-checkpoints .pc{ position:relative; width:var(--pc-size); height:var(--pc-size); }
 .progress-checkpoints .pc-dot{
-  position:relative; display:grid; place-items:center; width:36px; height:36px;
-  background:#eee; color:#000; border-radius:50%;
-  font-size:16px; line-height:1; font-weight:700; overflow:hidden;
+  position:relative; display:grid; place-items:center; width:var(--pc-size); height:var(--pc-size);
+  background:#eee; color:#000; border-radius:8px;
+  font-size:16px; line-height:1; font-weight:600; overflow:hidden;
 }
 .progress-checkpoints .pc-dot::before{
   content:""; position:absolute; inset:0; width:var(--pc-fill-w, 0%);
-  background-color: var(--pc-color, #52c41a); z-index:1; transition: width .35s cubic-bezier(.22,.61,.36,1), background-color .45s linear;
+  background-color: var(--pc-color, var(--color-black)); z-index:1; transition: width .35s cubic-bezier(.22,.61,.36,1);
 }
 .progress-checkpoints .pc-num{ position:relative; z-index:2; }
 .progress-checkpoints .pc.reached .pc-dot{ color:#fff; background:transparent;}
@@ -492,9 +507,10 @@
 /* Progress bar constraints */
 .progress-rail{ 
   width:auto;
-  max-width: none;
-  min-width: 300px;
-  margin-bottom: 16px;
+  max-width: none;          /* let it grow within footer */
+  min-width: 0;             /* allow shrinking */
+  display: flex;
+  align-items: center;
 }
 
 /* Prevent page scrolling */
@@ -529,13 +545,6 @@ html, body{ overflow:hidden; }
   /* tighten sizes for small screens (optional) */
   .emoji-btn{ width:40px; height:40px; border-radius:12px; }
   .likert-rows{ gap:16px; }       /* a bit tighter vertical rhythm */
-
-  /* progress bar takes the first full row */
-  .progress-rail{
-    flex: 0 0 100%;
-    width: 100% !important;
-    max-width: none;
-  }
 
   /* buttons take the second full row, split equally */
   .form-cta{
@@ -807,3 +816,4 @@ html, body{ overflow:hidden; }
 .ac-input{ border:none; outline:none; background:transparent; width:100%; color:inherit; font-size:inherit; line-height:inherit; }
 .ac-input::placeholder{ color:#0005; }
 .autocomplete.open .ac-control{ border-bottom-color:#fff; }
+
