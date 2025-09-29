@@ -11,6 +11,7 @@ export const STEPS = [
       { id: "country",      label: "Country of Primary Operation", type: "text",   required: true },
       { id: "company",      label: "Company Name",                  type: "text",   required: true },
       { id: "role",         label: "Your Role",                     type: "text",   required: true },
+      { id: "workEmail",    label: "Work Email",                    type: "text",   required: true },
       { id: "companyType",  label: "Company Type",                  type: "select", options: ["Startup","SME","Corporation","Non-profit","Government", "Other"], required: true },
       { id: "industry",     label: "Primary Industry",              type: "select", options: [
         "Advanced electronics",

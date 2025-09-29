@@ -22,12 +22,18 @@ export function LikertBlock({ questions = [], scale = 5 }){
               <div className="likert5">
                 {steps.map((val, idx) => {
                   const active = field.value === val;
-                  return (
-                    <button
+                    return (
+                      <button
                       key={val}
                       type="button"
                       aria-label={`${val} of ${scale}`}
-                      onClick={() => field.onChange(val)}
+                        onMouseDown={(e)=>{
+                          e.currentTarget.classList.add('tap');
+                        }}
+                        onAnimationEnd={(e)=>{
+                          e.currentTarget.classList.remove('tap');
+                        }}
+                        onClick={() => field.onChange(val)}
                       className={`emoji-btn ${active ? "active" : ""}`}
                     >
                       {EMOJI[idx]}

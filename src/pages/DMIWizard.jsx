@@ -14,6 +14,12 @@ const orgSchema = z.object({
   country: z.string().min(1, "Country is required"),
   company: z.string().min(1, "Company name is required"),
   role: z.string().min(1, "Role is required"),
+  workEmail: z.string()
+    .min(1, "Work email is required")
+    .email("Enter a valid email")
+    .refine(val => !/@(gmail|yahoo|hotmail|outlook|live|icloud|aol|protonmail|pm\.me)\./i.test(val), {
+      message: "Use your work email (no personal domains)",
+    }),
   companyType: z.string().min(1, "Company type is required"),
   industry: z.string().min(1, "Industry is required"),
   selfDesignUnderstanding: z.number().min(1).max(5),
@@ -124,6 +130,7 @@ export default function DMIWizard({ step = "org" }){
         org_country: allData.country ?? null,
         org_company: allData.company ?? null,
         org_role: allData.role ?? null,
+        work_email: allData.workEmail ?? null,
         org_company_type: allData.companyType ?? null,
         org_industry: allData.industry ?? null,
         self_design_understanding: allData.selfDesignUnderstanding ?? null,

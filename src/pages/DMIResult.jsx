@@ -63,9 +63,14 @@ export default function DMIResult() {
             <div className="line"></div>
             <h2 className="result-description">{result.description}</h2>
             <p className="result-text">{result.content}</p>
-            <button className="cta-button result-cta">
+            <a
+              className="cta-button result-cta"
+              href="https://bangid.com/start-for-free/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {result.buttonText}
-            </button>
+            </a>
           </div>
         </div>
       </section>

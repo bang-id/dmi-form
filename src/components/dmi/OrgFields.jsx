@@ -31,8 +31,8 @@ export function OrgFields({ fields }){
   const { register, control } = useFormContext();
 
   // Split into the two columns and the two likert rows
-  const baseFields = fields.slice(0, 5);
-  const likertRows = fields.slice(5);
+  const baseFields = fields.slice(0, 6);
+  const likertRows = fields.slice(6);
 
   return (
     <>
@@ -46,8 +46,12 @@ export function OrgFields({ fields }){
           <li key={f.id} className="field">
             <span className="label">{f.label}</span>
 
-            {f.type === "text" && f.id !== "country" && (
+            {f.type === "text" && f.id !== "country" && f.id !== "workEmail" && (
               <input {...register(f.id)} className="input-underline" placeholder="Type your text here…" />
+            )}
+
+            {f.type === "text" && f.id === "workEmail" && (
+              <input type="email" {...register(f.id)} className="input-underline" placeholder="name@company.com" />
             )}
 
             {f.type === "text" && f.id === "country" && (
