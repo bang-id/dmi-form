@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { STEPS } from "../config/dmiSchema";
+import { supabase } from "../lib/supabase";
 import StepLayout from "../components/dmi/StepLayout";
 import { OrgFields } from "../components/dmi/OrgFields";
 import { LikertBlock } from "../components/dmi/LikertBlock";
@@ -48,7 +49,7 @@ export default function DMIWizard({ step = "org" }){
     defaultValues: loadDraft(step),
   });
 
-  const { handleSubmit, watch } = methods;
+  const { handleSubmit, watch, formState } = methods;
   useEffect(()=>{ saveDraftLocal(step, watch()); }, [step, watch]);
 
   const onNext = handleSubmit((data) => {
@@ -58,9 +59,11 @@ export default function DMIWizard({ step = "org" }){
     if (next) {
       navigate(`/dmi/${next.id}`);
     } else {
-      // Calculate final score and navigate to results
+      // Calculate final score and persist submission
       const totalScore = calculateFinalScore();
-      navigate('/dmi/result', { state: { score: totalScore } });
+      persistSubmission(totalScore).finally(() => {
+        navigate('/dmi/result', { state: { score: totalScore } });
+      });
     }
   }, (errors) => {
     console.log('Form validation errors:', errors);
@@ -88,11 +91,57 @@ export default function DMIWizard({ step = "org" }){
 
     const responses = likertFields.map(field => allData[field] || 1);
     const totalPoints = responses.reduce((sum, score) => sum + score, 0);
-    const maxPoints = responses.length * 5;
     
-    // Convert to 0-100 scale
-    return Math.round((totalPoints / maxPoints) * 100);
+    // Return raw score (not converted to 0-100 scale)
+    return totalPoints;
   };
+
+  // Persist the entire submission + score to Supabase
+  async function persistSubmission(totalScore){
+    try{
+      // Reconstruct all form data similar to calculateFinalScore
+      const allData = {};
+      STEPS.forEach(stepConfig => {
+        const stepData = loadDraft(stepConfig.id);
+        Object.assign(allData, stepData);
+      });
+
+      // Flatten likert answers into a compact object
+      const likertAnswers = {};
+      STEPS.forEach(stepConfig => {
+        if (stepConfig.type === 'likert') {
+          stepConfig.questions.forEach(q => { likertAnswers[q.id] = allData[q.id] ?? null; });
+        } else if (stepConfig.fields) {
+          stepConfig.fields.forEach(f => {
+            if (f.type === 'likert') likertAnswers[f.id] = allData[f.id] ?? null;
+          });
+        }
+      });
+
+      const payload = {
+        created_at: new Date().toISOString(),
+        score: totalScore,
+        org_country: allData.country ?? null,
+        org_company: allData.company ?? null,
+        org_role: allData.role ?? null,
+        org_company_type: allData.companyType ?? null,
+        org_industry: allData.industry ?? null,
+        self_design_understanding: allData.selfDesignUnderstanding ?? null,
+        company_maturity_self: allData.companyMaturitySelf ?? null,
+        answers: likertAnswers,
+      };
+
+      const { error } = await supabase
+        .from('dmi_responses')
+        .insert(payload);
+
+      if (error) {
+        console.warn('[Supabase] insert failed', error);
+      }
+    }catch(err){
+      console.warn('[Supabase] unexpected error', err);
+    }
+  }
 
   const onBack = () => {
     const i = STEPS.findIndex(s=>s.id===step);
@@ -113,6 +162,11 @@ export default function DMIWizard({ step = "org" }){
         onNext={onNext}
         isFirst={STEPS[0].id===step}
         isLast={STEPS.at(-1).id===step}
+        footerNote={
+          step === 'org' && formState.isSubmitted && !formState.isValid
+            ? 'Please answer all questions to continue.'
+            : undefined
+        }
       >
         {cfg?.type === "form"   && <OrgFields fields={cfg.fields} />}
         {cfg?.type === "likert" && <LikertBlock questions={cfg.questions} />}

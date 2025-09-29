@@ -3,7 +3,7 @@ import ProgressBar from "./ProgressBar";
 import { STEPS } from "../../config/dmiSchema";
 import { useIframeHeight } from "../../hooks/useIframeHeight.js";
 
-export default function StepLayout({ title, subtitle, children, onBack, onNext, isFirst, isLast }){
+export default function StepLayout({ title, subtitle, children, onBack, onNext, isFirst, isLast, footerNote }){
   useIframeHeight();
   
   const idx = STEPS.findIndex(s => s.title === title);
@@ -24,9 +24,12 @@ export default function StepLayout({ title, subtitle, children, onBack, onNext, 
 
           <div className="form-footer">
             <ProgressBar value={pct} />
-            <div className="form-cta">
-              <button type="button" className="btn ghost" onClick={onBack} disabled={isFirst}>Back</button>
-              <button type="button" className="btn primary" onClick={onNext}>{isLast ? "Finish" : "Next"}</button>
+            <div className="form-cta-wrap">
+              {footerNote && <div className="form-feedback" role="status" aria-live="polite">{footerNote}</div>}
+              <div className="form-cta">
+                <button type="button" className="btn ghost" onClick={onBack} disabled={isFirst}>Back</button>
+                <button type="button" className="btn primary" onClick={onNext}>{isLast ? "Finish" : "Next"}</button>
+              </div>
             </div>
           </div>
         </div>

@@ -38,11 +38,20 @@ export default function DMIResult() {
       <section className={`hero hero--result ${result.id}`}>
         <div className="hero__inner">
           <div className="result-gem">
-            <img src={result.gemImage} alt={`${result.title} level`} />
+            {result.gemSvg && result.gemSvg.trim().length > 0 ? (
+              <div
+                className="gem-svg"
+                role="img"
+                aria-label={`${result.title} level`}
+                dangerouslySetInnerHTML={{ __html: result.gemSvg }}
+              />
+            ) : (
+              <img src={result.gemImage} alt={`${result.title} level`} />
+            )}
           </div>
 
           <div className="result-content">
-            <div className="score-container" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+            <div className="score-container" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '16px' }}>
               <p className="result-intro">Your score:</p>
               <p className="result-intro">{score}</p>
             </div>
