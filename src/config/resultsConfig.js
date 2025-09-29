@@ -1,60 +1,63 @@
 // src/config/resultsConfig.js
 
+// Import SVG files
+import starterGem from '/assets/gems/starter-gem.svg';
+import connectorGem from '/assets/gems/connector-gem.svg';
+import architectGem from '/assets/gems/architect-gem.svg';
+import scientistGem from '/assets/gems/scientist-gem.svg';
+import visionaryGem from '/assets/gems/visionary-gem.svg';
+
 export const RESULT_LEVELS = [
   {
     id: "starter",
     title: "Starter",
     subtitle: "Design = \"make it look nice\"",
     description: "You can do better!",
-    content: "We drop in a dedicated Bang Design squad—researcher, product designer, and visual lead—who overhaul key journeys, stand up a starter component kit, and ship quick wins that prove the value of design to the wider org.",
+    content: "Design is inconsistent, siloed, and reactive. No formal processes.",
     buttonText: "Take The First Step!",
     scoreRange: [0, 20],
-    gemImage: "/assets/gems/starter-gem.svg",
-    gradient: "radial-gradient(circle at 50% 40%, #845E18 0%, #845E18 15%, #000000 40%)",
+    gemImage: starterGem,
   },
   {
     id: "connector",
     title: "Connector",
-    subtitle: "Siloed teams, ad-hoc research",
+    subtitle: "Time to align",
     description: "You can do better!",
-    content: "Our embedded team launches a unified Figma library and insight hub, giving product, engineering, and marketing one source of truth—syncing sprints and slashing hand-off delays.",
+    content: "Some design practice exists but limited influence, measurement, or consistency.",
     buttonText: "Bring it all together",
     scoreRange: [21, 40],
-    gemImage: "/assets/gems/connector-gem.svg",
-    gradient: "radial-gradient(circle at 50% 25%, #4169E1 0%, #1B2951 15%, #000000 40%)",
+    gemImage: connectorGem,
   },
   {
     id: "architect",
     title: "Architect",
-    subtitle: "Processes exist but stall",
+    subtitle: "Build on this foundation",
     description: "You can do better!",
-    content: "We build and maintain a living design system—tokens, patterns, governance checks—so every release ships consistent, accessible, and dev-ready.",
+    content: "Design is embedded in product teams, supported by leadership, and metrics are tracked.",
     buttonText: "Design your advantage",
     scoreRange: [41, 60],
-    gemImage: "/assets/gems/architect-gem.svg",
-    gradient: "radial-gradient(circle at 50% 25%, #32CD32 0%, #1B4D1B 15%, #000000 40%)",
+    gemImage: architectGem,
+
   },
   {
     id: "scientist",
     title: "Scientist",
-    subtitle: "Data, but no story",
+    subtitle: "Design is your edge",
     description: "You can do better!",
-    content: "We instrument your experiences with analytics, set up A/B infrastructure, and iterate on live data. Continuous design optimizations translate directly into higher NPS, better retention, and clear ROI dashboards for leadership.",
+    content: "Design influences org-wide strategy, connects with customers continuously, and is resourced and respected.",
     buttonText: "Scale what works",
     scoreRange: [61, 80],
-    gemImage: "/assets/gems/scientist-gem.svg",
-    gradient: "radial-gradient(circle at 50% 25%, #FF6347 0%, #4D1F1A 15%, #000000 40%)",
+    gemImage: scientistGem,
   },
   {
     id: "visionary",
     title: "Visionary",
-    subtitle: "Ready for lift-off",
+    subtitle: "You lead what’s next",
     description: "You can do better!",
-    content: "Finally, our Futures Studio works side-by-side with your teams to prototype emerging tech, pilot new revenue models, and keep a steady pipeline of 'next-next' concepts—so your DMI, and your market edge, keep compounding.",
+    content: "Design is core to business differentiation and innovation. Operates as a mature, cross-functional system.",
     buttonText: "Shape what’s next",
     scoreRange: [81, 100],
-    gemImage: "/assets/gems/visionary-gem.svg",
-    gradient: "radial-gradient(circle at 50% 25%, #9932CC 0%, #2D1B4D 15%, #000000 40%)",
+    gemImage: visionaryGem,
   },
 ];
 

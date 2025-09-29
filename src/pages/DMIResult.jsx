@@ -42,7 +42,10 @@ export default function DMIResult() {
           </div>
 
           <div className="result-content">
-            <p className="result-intro">You're a</p>
+            <div className="score-container" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+              <p className="result-intro">Your score:</p>
+              <p className="result-intro">{score}</p>
+            </div>
             <h1 className="result-title">{result.title}</h1>
             <p className="result-subtitle">{result.subtitle}</p>
           </div>
