@@ -84,8 +84,10 @@
   .hero--result{
     width: 100vw;                   /* full viewport width */
     max-width: none;                /* remove width constraints */
-    height: 100vh;                  /* full viewport height */
-    min-height: 100vh;              /* ensure minimum full height */
+    height: auto;                   /* allow content to grow */
+    min-height: 100dvh;             /* fill available viewport height incl. mobile UI */
+    overflow-y: auto;               /* scroll when content exceeds viewport */
+    -webkit-overflow-scrolling: touch;
     padding: 20px;
     text-align: center;             /* center all content */
     margin: 0;                      /* remove any margins */
@@ -120,7 +122,7 @@
     width:100%;
     max-width:100%;             /* ensure inner never exceeds container */
     box-sizing:border-box;      /* include padding in width calculations */
-    height:100%;                /* fill the hero container height */
+    min-height:100%;            /* fill the hero container height */
     position:relative;          /* for footer positioning */
   }
   
@@ -444,14 +446,37 @@
 
 /* ---------- Progress ---------- */
 .progress-rail{
-  height:10px; width:220px; background:#eee; border-radius:999px;
+  position:relative;
+  height:14px; width:400px; background:#eee; border-radius:999px;
   margin-top:16px;
 }
 .progress-fill{
-  height:100%; background:var(--color-black); border-radius:999px;
+  position:absolute; left:0; top:0; bottom:0;
+  height:100%; border-radius:999px;
   width:0%;
-  transition: width .3s ease;
+  transition: width .45s cubic-bezier(.22,.61,.36,1), background-color .45s linear;
 }
+.progress-checkpoints{ 
+  list-style:none; 
+  padding:0; 
+  margin:0; 
+  text-align:center; 
+  font-family:inherit; 
+  font-size:16px; 
+  font-weight:600;}
+
+.progress-checkpoints .pc{ position:absolute; top:50%; transform:translate(-50%, -50%); width:36px; height:36px; }
+.progress-checkpoints .pc-dot{
+  position:relative; display:grid; place-items:center; width:36px; height:36px;
+  background:#eee; color:#000; border-radius:50%;
+  font-size:16px; line-height:1; font-weight:700; overflow:hidden;
+}
+.progress-checkpoints .pc-dot::before{
+  content:""; position:absolute; inset:0; width:var(--pc-fill-w, 0%);
+  background-color: var(--pc-color, #52c41a); z-index:1; transition: width .35s cubic-bezier(.22,.61,.36,1), background-color .45s linear;
+}
+.progress-checkpoints .pc-num{ position:relative; z-index:2; }
+.progress-checkpoints .pc.reached .pc-dot{ color:#fff; background:transparent;}
 
 /* ================== Responsive Design ================== */
 
@@ -466,8 +491,9 @@
 
 /* Progress bar constraints */
 .progress-rail{ 
-  width:100%;
-  max-width: 220px;
+  width:auto;
+  max-width: none;
+  min-width: 300px;
   margin-bottom: 16px;
 }
 
@@ -606,10 +632,10 @@ html, body{ overflow:hidden; }
 }
 
 /* ====== Section (rule + left-aligned copy block) ====== */
-.result-section{
+  .result-section{
   position: relative;
-  margin-top: clamp(16px, 6vw, 32px);
-  padding-top: clamp(18px, 2.2vw, 26px);
+    margin-top: clamp(12px, 4vw, 24px);
+    padding-top: clamp(12px, 2vw, 20px);
   align-items: start;
   width: 70%;
   max-width: 700px;

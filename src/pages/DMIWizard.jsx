@@ -58,6 +58,19 @@ export default function DMIWizard({ step = "org" }){
   const { handleSubmit, watch, formState } = methods;
   useEffect(()=>{ saveDraftLocal(step, watch()); }, [step, watch]);
 
+  // Reset scroll position of the internal scroll container and window on step change
+  useEffect(() => {
+    try {
+      const scroller = document.querySelector('.form-content');
+      if (scroller && typeof scroller.scrollTo === 'function') {
+        scroller.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+    } catch {}
+    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+  }, [step]);
+
   const onNext = handleSubmit((data) => {
     console.log('Form submitted successfully:', data);
     const i = STEPS.findIndex(s => s.id === step);
