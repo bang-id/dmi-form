@@ -13,9 +13,9 @@ function HomePage() {
     <div className="page">
       <section className="hero hero--start">
         <div className="hero__inner">
-          <h1 className="hero__title">Ready to see the delta between today and 'Design-first'?</h1>
+          <h1 className="hero__title">Get your DMI assessment, it only takes 10 minutes.</h1>
 
-          <Link to="/dmi/start" className="cta-button">Run The DMI Assessment</Link>
+          <Link to="/dmi/start" className="cta-button">Start The DMI Assessment</Link>
 
 
           <div className="separator"></div>
@@ -23,8 +23,8 @@ function HomePage() {
           <aside className="fact">
             <div className="fact__label">Fact:</div>
             <div className="fact__content">
-              When a consumer-electronics client jumped 18 DMI points, their NPD cycle shrank from 14 months to 9.
-              That's one extra product on the shelf every two years.
+              When a consumer-electronics client jumped 18 DMI points, their NPD cycle shrank from 14 months to 9. <br />
+              <b>That's one extra product on the shelf every two years.</b>
             </div>
           </aside>
         </div>
