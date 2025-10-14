@@ -56,12 +56,11 @@ export default function DMIResult() {
               <p className="result-intro">{score}</p>
             </div>
             <h1 className="result-title">{result.title}</h1>
-            <p className="result-subtitle">{result.subtitle}</p>
           </div>
 
           <div className="result-section">
             <div className="line"></div>
-            <h2 className="result-description">{result.description}</h2>
+            <p className="result-subtitle">{result.subtitle}</p>
             <p className="result-text">{result.content}</p>
             <a
               className="cta-button result-cta"

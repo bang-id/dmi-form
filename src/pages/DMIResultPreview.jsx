@@ -63,11 +63,10 @@ export default function DMIResultPreview() {
           <div className="result-content">
             <p className="result-intro">You're a</p>
             <h1 className="result-title">{result.title}</h1>
-            <p className="result-subtitle">{result.subtitle}</p>
           </div>
 
           <div className="result-section">
-            <h2 className="result-description">{result.description}</h2>
+            <p className="result-subtitle">{result.subtitle}</p>
             <p className="result-text">{result.content}</p>
           </div>
 

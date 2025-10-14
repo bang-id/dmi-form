@@ -30,7 +30,7 @@
   html, body{ height:100%; }
   body{
     font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background:#f5f5f5;
+    background:#fff;
     color:var(--color-black);
   }
   
@@ -75,9 +75,11 @@
   /* Image background only on the start screen */
   .hero--start{
     background:url('/assets/start-bg.png') center/cover no-repeat;
-    height: auto;                   /* hug content instead of fixed height */
-    min-height: auto;               /* remove minimum height constraint */
-    padding: clamp(20px, 6vw, 96px);
+    display:flex;                   /* enable flex growth for inner */
+    height: auto;                   /* override base .hero fixed height */
+    min-height: 65vh;               /* ensure taller presence */
+    max-height: 90vh;               /* cap size to half viewport height */
+    padding: clamp(24px, 4vw, 72px);
   }
 
   /* Result screen styling */
@@ -125,6 +127,13 @@
     min-height:100%;            /* fill the hero container height */
     position:relative;          /* for footer positioning */
   }
+
+  /* Start screen only */
+  .hero--start .hero__inner{
+    flex: 1 1 auto;                 /* grow to fill start hero */
+    justify-content: center;
+    align-items: center; /* vertically distribute title and CTA */
+  }
   
   /* ================== Content ================== */
   .hero__title{
@@ -135,12 +144,14 @@
     /* tighter tracking across sizes */
     letter-spacing:clamp(-1.2px, -0.35vw, -7.6px);
     max-width:28ch;
-    margin-bottom:clamp(24px, 3vw, 54px);
+    margin-bottom:clamp(28px, 5vw, 64px);
     text-wrap:balance;
     font-kerning:normal;
     font-variant-ligatures:common-ligatures contextual;
     text-rendering:optimizeLegibility;
     -webkit-font-smoothing:antialiased;
+    text-align: center;
+    align-self: center;
   }
   
   .cta-button{
@@ -153,10 +164,10 @@
     display:inline-flex;           /* do not stretch full width */
     align-items:center;
     justify-content:center;
-    align-self:flex-start;         /* override container stretch */
+    align-self:center;         /* override container stretch */
     cursor:pointer;
     transition:transform .06s ease, background-color .2s ease, color .2s ease;
-    margin-bottom:clamp(28px, 6vw, 40px);
+    /* margin-bottom:clamp(28px, 6vw, 40px); */
     text-decoration: none;
     /* subtle pulsing glow to beckon attention */
     box-shadow:0 0 0 0 rgba(255, 255, 255, 0.479);
@@ -643,7 +654,7 @@ html, body{ overflow:hidden; }
   font-style: normal;
   font-weight: 400;
   line-height: 72px;
-  letter-spacing: clamp(-1px, 9vw, -3.6px);
+  letter-spacing: clamp(-3.6px, -0.3vw, -1px);
 }
 
 .result-subtitle{
@@ -651,24 +662,23 @@ html, body{ overflow:hidden; }
   font-weight: 400;
   font-size: clamp(16px, 2.1vw, 20px);
   line-height: 1.35;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 /* ====== Section (rule + left-aligned copy block) ====== */
   .result-section{
   position: relative;
-    margin-top: clamp(12px, 4vw, 24px);
-    padding-top: clamp(12px, 2vw, 20px);
-  align-items: start;
+  /* padding-top: clamp(16px, 2vw, 38px); */
+  align-items: center;
   width: 70%;
   max-width: 700px;
   align-self: center;
 }
 .line{
   height: 1px;
-  background:rgb(146, 146, 146);
+  background: var(--line-color);
   width: 100%;
-  margin-bottom: clamp(16px, 6vw, 32px);
+  margin-bottom: clamp(24px, 6vw, 42px);
   mix-blend-mode: color-dodge;
 }
 
@@ -679,8 +689,8 @@ html, body{ overflow:hidden; }
   margin-left: clamp(0px, 12vw, 360px);
   display: flex;                 /* or: display:grid */
   flex-direction: column;        /* grid alt: justify-items: start; */
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
 }
 
 /* If you don't have an inner wrapper, apply these to .result-section instead. */
@@ -701,7 +711,7 @@ html, body{ overflow:hidden; }
   line-height: 1.6;
   font-size: 16px;
   width: 100%;
-  margin-bottom: clamp(18px, 2.2vw, 26px);
+  margin-bottom: clamp(20px, 2.2vw, 32px);
   text-align: left;
 }
 
@@ -745,6 +755,13 @@ html, body{ overflow:hidden; }
   .hero--result.visionary::before {
     background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(190, 71, 229, 0.32) 0%, rgba(190, 71, 229, 0) 100%), #000;
   }
+
+  /* Per-level line color (edit these to your rgba values) */
+  .hero--result.starter{ --line-color: rgba(41, 30, 8, 1); }
+  .hero--result.connector{ --line-color: rgba(84, 84, 84, 1); }
+  .hero--result.architect{ --line-color: rgba(71, 57, 8, 1); }
+  .hero--result.scientist{ --line-color: rgba(2, 65, 71, 1); }
+  .hero--result.visionary{ --line-color: rgba(63, 23, 75, 1); }
 
   /* Specific title colors for each result level */
   .hero--result.starter .result-title {
@@ -801,7 +818,15 @@ html, body{ overflow:hidden; }
   width: min(70%, 700px);
   margin-inline: auto;        /* centers the block */
   margin-top: clamp(16px, 6vw, 32px);
-  text-align: left;           /* override any inherited centering */
+  text-align: center;
+}
+
+/* Desktop-only: constrain result section to 512px max width */
+@media (min-width: 1024px){
+  .result-section{
+    width: 100%;
+    max-width: 512px;
+  }
 }
 
 /* Left-aligned column inside */
@@ -815,13 +840,12 @@ html, body{ overflow:hidden; }
 
 /* Text */
 .result-description,
-.result-text{ text-align: left; }
+.result-text{ text-align: center; }
 
 /* CTA: ensure no auto-centering applies */
 .result-cta{
   display: inline-flex;        /* prevents full-width behavior */
-  align-self: flex-start;      /* pin to left within the column */
-  margin-top: 24px;                   /* neutralize margin: 0 auto; utilities */
+  align-self: flex-start;      /* pin to left within the column */                  /* neutralize margin: 0 auto; utilities */
 }
 
 

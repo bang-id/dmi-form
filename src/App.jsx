@@ -18,6 +18,11 @@ function HomePage() {
           <Link to="/dmi/start" className="cta-button">Start The DMI Assessment</Link>
 
 
+          {/**
+           * Separator and fact section hidden on first screen per request.
+           * Keeping markup commented out for potential future use.
+           */}
+          {/*
           <div className="separator"></div>
 
           <aside className="fact">
@@ -27,6 +32,7 @@ function HomePage() {
               <b>That's one extra product on the shelf every two years.</b>
             </div>
           </aside>
+          */}
         </div>
       </section>
     </div>
