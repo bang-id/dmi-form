@@ -719,6 +719,7 @@ html, body{ overflow:hidden; }
   cursor: pointer;
   transition: background .2s ease, transform .08s ease, border-color .2s ease;
   align-self: flex-start; 
+  animation: none;               /* do not inherit pulsing glow from .cta-button */
 }
 
 .result-cta:hover{ background: var(--cta-bg-hover); border-color: #ffffff36; }

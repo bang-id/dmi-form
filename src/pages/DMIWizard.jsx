@@ -58,6 +58,24 @@ export default function DMIWizard({ step = "org" }){
   const { handleSubmit, watch, formState } = methods;
   useEffect(()=>{ saveDraftLocal(step, watch()); }, [step, watch]);
 
+  // Debounced autosave for Org step (drafts)
+  useEffect(() => {
+    if (step !== 'org') return;
+    let timer;
+    const subscription = watch((values) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        persistDraftOrg(values).catch(() => {});
+      }, 1000);
+    });
+    return () => {
+      clearTimeout(timer);
+      if (subscription && typeof subscription.unsubscribe === 'function') {
+        subscription.unsubscribe();
+      }
+    };
+  }, [step, watch]);
+
   // Reset scroll position of the internal scroll container and window on step change
   useEffect(() => {
     try {
@@ -149,16 +167,51 @@ export default function DMIWizard({ step = "org" }){
         self_design_understanding: allData.selfDesignUnderstanding ?? null,
         company_maturity_self: allData.companyMaturitySelf ?? null,
         answers: likertAnswers,
+        session_id: (typeof localStorage !== 'undefined' && localStorage.getItem('dmi_session_id')) || null,
+        is_draft: false,
       };
 
       const { error } = await supabase
         .from('dmi_responses')
-        .insert(payload);
+        .upsert(payload, { onConflict: 'session_id' });
 
       if (error) {
         console.warn('[Supabase] insert failed', error);
       }
     }catch(err){
+      console.warn('[Supabase] unexpected error', err);
+    }
+  }
+
+  // Persist draft for Org step only
+  async function persistDraftOrg(values){
+    try {
+      const sessionId = (typeof localStorage !== 'undefined' && localStorage.getItem('dmi_session_id')) || null;
+      if (!sessionId) return;
+      const payload = {
+        created_at: new Date().toISOString(),
+        session_id: sessionId,
+        is_draft: true,
+        org_country: values.country ?? null,
+        org_company: values.company ?? null,
+        org_role: values.role ?? null,
+        work_email: values.workEmail ?? null,
+        org_company_type: values.companyType ?? null,
+        org_industry: values.industry ?? null,
+        self_design_understanding: values.selfDesignUnderstanding ?? null,
+        company_maturity_self: values.companyMaturitySelf ?? null,
+        answers: {
+          selfDesignUnderstanding: values.selfDesignUnderstanding ?? null,
+          companyMaturitySelf: values.companyMaturitySelf ?? null,
+        },
+      };
+      const { error } = await supabase
+        .from('dmi_responses')
+        .upsert(payload, { onConflict: 'session_id' });
+      if (error) {
+        console.warn('[Supabase] upsert draft failed', error);
+      }
+    } catch (err) {
       console.warn('[Supabase] unexpected error', err);
     }
   }
