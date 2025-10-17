@@ -14,7 +14,10 @@ export default function StepLayout({ title, subtitle, children, onBack, onNext, 
       <section className="hero">
         <div className="hero__inner">
           <div className="form-header">
-            <h2 className="form-h2">{title}</h2>
+            <div className="form-header-content">
+              <h2 className="form-h2">{title}</h2>
+              <img src="/assets/bangstar.svg" alt="Bang" className="form-logo" />
+            </div>
             {subtitle && <p className="form-sub">{subtitle}</p>}
           </div>
 

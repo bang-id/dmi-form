@@ -51,8 +51,10 @@
 
   /* Result screens span full viewport */
   .page:has(.hero--result) {
-    padding: 0;  /* remove all padding */
-    min-height: 100vh;            /* full viewport height */
+    padding: 0;  /* remove all margins */
+    height: 100vh;                /* exact viewport height */
+    max-height: 100vh;
+    overflow: hidden;
   }
   
 .hero{
@@ -86,9 +88,9 @@
   .hero--result{
     width: 100vw;                   /* full viewport width */
     max-width: none;                /* remove width constraints */
-    height: auto;                   /* allow content to grow */
-    min-height: 100dvh;             /* fill available viewport height incl. mobile UI */
-    overflow-y: auto;               /* scroll when content exceeds viewport */
+    height: 100vh;                  /* full viewport height */
+    max-height: 100vh;              /* prevent exceeding viewport */
+    overflow: hidden;               /* prevent scrolling */
     -webkit-overflow-scrolling: touch;
     padding: 20px;
     text-align: center;             /* center all content */
@@ -114,6 +116,10 @@
   .hero--result .hero__inner {
     position: relative;
     z-index: 1;                    /* above the gradient overlay */
+    justify-content: flex-start;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
   }
 
   .hero__inner{
@@ -136,6 +142,13 @@
   }
   
   /* ================== Content ================== */
+  .hero__logo{
+    width: clamp(120px, 8vw, 200px);
+    height: auto;
+    margin-bottom: clamp(16px, 2vw, 24px);
+    align-self: center;
+  }
+  
   .hero__title{
     color:#fff;
     font-weight:400;
@@ -144,7 +157,7 @@
     /* tighter tracking across sizes */
     letter-spacing:clamp(-1.2px, -0.35vw, -7.6px);
     max-width:28ch;
-    margin-bottom:clamp(28px, 5vw, 64px);
+    margin-bottom:clamp(40px, 6vw, 80px);
     text-wrap:balance;
     font-kerning:normal;
     font-variant-ligatures:common-ligatures contextual;
@@ -259,6 +272,20 @@
   padding-bottom:clamp(16px, 5vw, 32px);
 }
 
+.form-header-content{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.form-logo{
+  width: clamp(32px, 3vw, 44px);
+  height: auto;
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+}
+
 /* ---------- Scrollable content area ---------- */
 .form-content{
   position:absolute;              /* absolute positioning for proper height calculation */
@@ -299,6 +326,7 @@
   font-size: clamp(26px, 2.4vw, 36px); 
   letter-spacing: clamp(-1.2px, -0.35vw, -7.6px);
   margin:0;
+  flex: 1;
 }
 
 .form-sub{ color:var(--color-text-gray); margin:0; }
@@ -735,6 +763,35 @@ html, body{ overflow:hidden; }
 .result-cta:hover{ background: var(--cta-bg-hover); border-color: #ffffff36; }
 .result-cta:active{ transform: translateY(1px); }
 
+/* Result bottom container - holds result-section and logo */
+.result-bottom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  margin-top: 24px;
+  min-height: 200px;
+}
+
+/* Result content spacing */
+.result-content {
+  margin-top: 12px;
+}
+
+/* Result logo styling */
+.result-logo {
+  opacity: 0.5;
+  flex-shrink: 0;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.result-logo img {
+  width: 100px;
+  height: auto;
+}
+
   /* Specific gradients for each result level */
   .hero--result.starter::before {
     background: radial-gradient(54.58% 72.41% at 50% 37.59%, rgba(132, 94, 24, 0.32) 0%, rgba(132, 94, 24, 0.00) 100%), #000;
@@ -817,8 +874,8 @@ html, body{ overflow:hidden; }
   position: relative;
   width: min(70%, 700px);
   margin-inline: auto;        /* centers the block */
-  margin-top: clamp(16px, 6vw, 32px);
   text-align: center;
+  flex-shrink: 0;
 }
 
 /* Desktop-only: constrain result section to 512px max width */

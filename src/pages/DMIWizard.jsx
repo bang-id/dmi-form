@@ -96,10 +96,10 @@ export default function DMIWizard({ step = "org" }){
     if (next) {
       navigate(`/dmi/${next.id}`);
     } else {
-      // Calculate final score and persist submission
-      const totalScore = calculateFinalScore();
-      persistSubmission(totalScore).finally(() => {
-        navigate('/dmi/result', { state: { score: totalScore } });
+      // Calculate final score (raw and percentage) and persist submission
+      const { raw, percent } = calculateFinalScore();
+      persistSubmission(raw).finally(() => {
+        navigate('/dmi/result', { state: { score: percent, rawScore: raw } });
       });
     }
   }, (errors) => {
@@ -127,10 +127,16 @@ export default function DMIWizard({ step = "org" }){
     });
 
     const responses = likertFields.map(field => allData[field] || 1);
-    const totalPoints = responses.reduce((sum, score) => sum + score, 0);
-    
-    // Return raw score (not converted to 0-100 scale)
-    return totalPoints;
+    const raw = responses.reduce((sum, score) => sum + score, 0);
+
+    // Convert to percentage where 0% = all 1s, 100% = all 5s
+    const minPossible = likertFields.length * 1;
+    const maxPossible = likertFields.length * 5;
+    const percent = maxPossible > minPossible
+      ? Math.round(((raw - minPossible) / (maxPossible - minPossible)) * 100)
+      : 0;
+
+    return { raw, percent: Math.max(0, Math.min(100, percent)) };
   };
 
   // Persist the entire submission + score to Supabase

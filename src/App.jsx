@@ -13,7 +13,8 @@ function HomePage() {
     <div className="page">
       <section className="hero hero--start">
         <div className="hero__inner">
-          <h1 className="hero__title">Get your DMI assessed,<br /> it only takes 10 minutes.</h1>
+          <img src="/assets/bang-lm.svg" alt="Bang" className="hero__logo" />
+          <h1 className="hero__title">Get your DMI assessed,<br /> it only takes a few minutes.</h1>
 
           <Link to="/dmi/start" className="cta-button">Start The DMI Assessment</Link>
 
