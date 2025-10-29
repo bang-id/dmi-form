@@ -93,7 +93,16 @@ export default function DMIWizard({ step = "org" }){
     console.log('Form submitted successfully:', data);
     const i = STEPS.findIndex(s => s.id === step);
     const next = STEPS[i+1];
-    if (next) {
+    
+    // If we're on the org step, persist the data immediately
+    if (step === 'org') {
+      persistOrgDataNow(data).finally(() => {
+        // Navigate to next step after persisting
+        if (next) {
+          navigate(`/dmi/${next.id}`);
+        }
+      });
+    } else if (next) {
       navigate(`/dmi/${next.id}`);
     } else {
       // Calculate final score (raw and percentage) and persist submission
@@ -186,6 +195,43 @@ export default function DMIWizard({ step = "org" }){
       }
     }catch(err){
       console.warn('[Supabase] unexpected error', err);
+    }
+  }
+
+  // Persist org data immediately when user clicks Next (not a draft)
+  async function persistOrgDataNow(data) {
+    try {
+      const sessionId = (typeof localStorage !== 'undefined' && localStorage.getItem('dmi_session_id')) || null;
+      
+      const payload = {
+        created_at: new Date().toISOString(),
+        session_id: sessionId,
+        is_draft: false, // This is a committed submission
+        org_country: data.country ?? null,
+        org_company: data.company ?? null,
+        org_role: data.role ?? null,
+        work_email: data.workEmail ?? null,
+        org_company_type: data.companyType ?? null,
+        org_industry: data.industry ?? null,
+        self_design_understanding: data.selfDesignUnderstanding ?? null,
+        company_maturity_self: data.companyMaturitySelf ?? null,
+        answers: {
+          selfDesignUnderstanding: data.selfDesignUnderstanding ?? null,
+          companyMaturitySelf: data.companyMaturitySelf ?? null,
+        },
+      };
+
+      const { error } = await supabase
+        .from('dmi_responses')
+        .upsert(payload, { onConflict: 'session_id' });
+
+      if (error) {
+        console.warn('[Supabase] persist org data failed', error);
+      } else {
+        console.log('[Supabase] Org data persisted successfully');
+      }
+    } catch (err) {
+      console.warn('[Supabase] unexpected error persisting org data', err);
     }
   }
 
