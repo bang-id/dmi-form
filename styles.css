@@ -455,6 +455,7 @@
   margin: 2px;
   transition: background .2s ease, transform .08s ease, border-color .2s ease;
 }
+.emoji-btn:hover{ transform: translateY(-2px); background:#f5f5f5;}
 .emoji-btn.active{
   background: var(--color-black); 
   color:#fff;
@@ -471,6 +472,52 @@
 .emoji-btn:active{ transform: translateY(2px); }
 .emoji-btn:focus-visible{ outline: none; }
 .emoji-btn.tap{ animation: tap-down-up 180ms ease-out; }
+
+/* ---------- Toast (bottom-center) ---------- */
+.dmi-toast{
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(16px);
+  background: #fff;
+  color: var(--color-text-gray);
+  /* border: 1px solid var(--color-gray); */
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-size: 16px;
+  line-height: 1;
+  z-index: 11;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease;
+}
+.dmi-toast.visible{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  animation: dmi-toast-fade .18s ease;
+}
+
+/* When placed inside footer, center vertically with its items */
+.form-footer .dmi-toast{
+  position: absolute;
+  bottom: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + 6px));
+}
+.form-footer .dmi-toast.visible{
+  transform: translate(-50%, -50%);
+  animation: dmi-toast-pop-footer .18s ease;
+}
+
+@keyframes dmi-toast-pop {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes dmi-toast-pop-footer {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
 
 /* ---------- Buttons + footer actions ---------- */
 .form-cta{ display:flex; justify-content:flex-end; gap:12px; margin-top:24px; }
@@ -922,3 +969,56 @@ html, body{ overflow:hidden; }
 .ac-input{ border:none; outline:none; background:transparent; width:100%; color:inherit; font-size:inherit; line-height:inherit; }
 .ac-input::placeholder{ color:#0005; }
 .autocomplete.open .ac-control{ border-bottom-color:#fff; }
+
+/* ============ Exit Intent Modal ============ */
+.dmi-exit-modal-bk {
+  position: fixed;
+  inset: 0;
+  z-index: 2222;
+  background: rgba(17,17,17,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dmi-exit-modal {
+  background: #fff;
+  padding: 64px;
+  border-radius: 20px;
+  box-shadow: 0 4px 48px 0 rgba(0,0,0,0.16);
+  width: 40vw;
+  min-width: 320px;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.dmi-exit-head{ display:flex; flex-direction:column; align-items:center; gap:24px; }
+.dmi-exit-icon{ width:42px; height:auto; flex-shrink:0; }
+.dmi-exit-message {
+  font-size: 2.1rem;
+  color: var(--color-black);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.24;
+  max-width: 80%;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.dmi-exit-btns {
+  display: flex;
+  gap: 20px;
+}
+.dmi-exit-btns .btn{ padding: 16px 28px; font-size: 18px; border-radius: 999px; }
+@media (max-width: 520px) {
+  .dmi-exit-modal {
+    padding: 18px 8vw 16px;
+    min-width: 0;
+    max-width: 98vw;
+    gap: 18px;
+  }
+  .dmi-exit-message { font-size: 1.3rem; }
+  .dmi-exit-btns { gap: 8px; flex-direction: column; width: 100%; }
+  .dmi-exit-btns .btn { width: 100%; }
+}

@@ -2,6 +2,7 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import CustomSelect from "./CustomSelect";
 import AutoComplete from "./AutoComplete";
+import { showToast, hideToast } from "./toast";
 
 // Use numeric labels 1..5 for the inline org likert
 const EMOJIS5 = ["1","2","3","4","5"]; // 1..5
@@ -140,6 +141,13 @@ export function OrgFields({ fields }){
                         key={val}
                         type="button"
                         aria-label={`${val} of 5`}
+                        onMouseEnter={()=> showToast(
+                          val===1?"Strongly disagree":
+                          val===2?"Somewhat disagree":
+                          val===3?"Meh":
+                          val===4?"Somewhat agree":"Strongly agree"
+                        )}
+                        onMouseLeave={hideToast}
                         onClick={()=> field.onChange(val)}
                         className={`emoji-btn ${active ? "active" : ""}`}
                       >
