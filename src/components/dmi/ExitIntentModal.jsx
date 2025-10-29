@@ -9,7 +9,12 @@ const TEXTS = [
 ];
 
 export default function ExitIntentModal({ open, onContinue, onSaveQuit }) {
-  const [idx] = React.useState(() => Math.floor(Math.random() * TEXTS.length));
+  const [idx, setIdx] = React.useState(() => Math.floor(Math.random() * TEXTS.length));
+  React.useEffect(() => {
+    if (open) {
+      setIdx(Math.floor(Math.random() * TEXTS.length));
+    }
+  }, [open]);
 
   if (!open) return null;
   return (
