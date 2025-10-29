@@ -5,7 +5,8 @@ import { Controller, useFormContext } from "react-hook-form";
 export function LikertBlock({ questions = [], scale = 5 }){
   const { control } = useFormContext();
   const steps = Array.from({ length: scale }, (_, i) => i + 1);
-  const EMOJI = ["🤔","😟","😐","🙂","🥳"]; // left→right (1..5)
+  // const EMOJI = ["🤔","😟","😐","🙂","🥳"]; // left→right (1..5)
+  const EMOJI = ["1","2","3","4","5"]; // left→right (1..5)
 
   return (
     <div className="likert-rows">

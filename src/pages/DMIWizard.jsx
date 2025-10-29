@@ -55,7 +55,7 @@ export default function DMIWizard({ step = "org" }){
     defaultValues: loadDraft(step),
   });
 
-  const { handleSubmit, watch, formState } = methods;
+  const { handleSubmit, watch, formState, getValues } = methods;
   useEffect(()=>{ saveDraftLocal(step, watch()); }, [step, watch]);
 
   // Debounced autosave for Org step (drafts)
@@ -112,6 +112,13 @@ export default function DMIWizard({ step = "org" }){
       });
     }
   }, (errors) => {
+    // Persist whatever the user has entered on org step even if invalid
+    if (step === 'org') {
+      try {
+        const current = getValues();
+        persistOrgDataNow(current);
+      } catch {}
+    }
     console.log('Form validation errors:', errors);
   });
 
