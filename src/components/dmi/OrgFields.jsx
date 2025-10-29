@@ -3,7 +3,8 @@ import { Controller, useFormContext } from "react-hook-form";
 import CustomSelect from "./CustomSelect";
 import AutoComplete from "./AutoComplete";
 
-const EMOJIS5 = ["🤔","😕","😐","🙂","🥳"]; // 1..5
+// Use numeric labels 1..5 for the inline org likert
+const EMOJIS5 = ["1","2","3","4","5"]; // 1..5
 
 const COUNTRIES = [
   "Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan",

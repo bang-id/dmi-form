@@ -599,7 +599,7 @@ html, body{ overflow:hidden; }
     padding-left: 24px;
   }
   /* tighten sizes for small screens (optional) */
-  .emoji-btn{ width:40px; height:40px; border-radius:12px; }
+  .emoji-btn{ width:40px; height:40px; border-radius:999px; }
   .likert-rows{ gap:16px; }       /* a bit tighter vertical rhythm */
 
   /* buttons take the second full row, split equally */
@@ -626,9 +626,16 @@ html, body{ overflow:hidden; }
     margin-top: 28px;
     margin-bottom: 64px;
   }
+
+  .form-footer{ 
+    padding-bottom:0;
+    padding-top: 12px;
 }
 
-
+.hero{
+  padding: 12px;
+}
+}
 /* result page css */
 
 /* A simple centering wrapper (optional) */
@@ -915,4 +922,3 @@ html, body{ overflow:hidden; }
 .ac-input{ border:none; outline:none; background:transparent; width:100%; color:inherit; font-size:inherit; line-height:inherit; }
 .ac-input::placeholder{ color:#0005; }
 .autocomplete.open .ac-control{ border-bottom-color:#fff; }
-
