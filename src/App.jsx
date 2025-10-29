@@ -17,7 +17,7 @@ function HomePage() {
       <section className="hero hero--start">
         <div className="hero__inner">
           <img src="/assets/bang-lm.svg" alt="Bang" className="hero__logo" />
-          <h1 className="hero__title">Get your DMI assessed,<br /> it only takes a few minutes.</h1>
+          <h1 className="hero__title">Get your DMI assessed,<br /> it only takes 2 minutes.</h1>
           <Link to="/dmi/start" className="cta-button">Start The DMI Assessment</Link>
         </div>
       </section>
@@ -78,8 +78,9 @@ function App() {
     }
   }
   useEffect(() => {
-    // Disable exit-intent on the start screen ("/")
-    if (location.pathname === '/') return;
+    // Disable exit-intent on start and result/preview screens
+    const disabledRoutes = ['/', '/dmi/result', '/preview-results'];
+    if (disabledRoutes.includes(location.pathname)) return;
     let exited = false;
     function onMouseOut(e) {
       if (exited || exitOpen) return;

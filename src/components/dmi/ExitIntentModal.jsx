@@ -4,8 +4,11 @@ const TEXTS = [
   "You’ve come too far to ghost this survey.",
   "Your competitors are probably 3 questions ahead.",
   "Finish before your CEO asks about your design maturity.",
-  "Every click takes you one step closer to outperforming your rivals.",
+  "Do or do not? Decide you must.",
   "This is the part where heroes don’t quit.",
+  "The journey of a thousand miles begins with one step.",
+  "One often meets his destiny on the road he takes to avoid it.",
+  "Two more minutes and you’ll be done.",
 ];
 
 export default function ExitIntentModal({ open, onContinue, onSaveQuit }) {

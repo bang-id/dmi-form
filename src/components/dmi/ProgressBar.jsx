@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { STEPS } from "../../config/dmiSchema";
 
 export default function ProgressBar({ value = 0 }){
+  const navigate = useNavigate();
   const pct = Math.min(100, Math.max(0, value * 100));
   // Discrete step colors from red -> green
   const steps = STEPS.filter(s => s.type !== 'form' || s.id === 'org');
@@ -41,6 +43,12 @@ export default function ProgressBar({ value = 0 }){
     }
   }, [stepIdx]);
 
+  const goToStep = (index) => {
+    const target = steps[index];
+    if (!target) return;
+    navigate(`/dmi/${target.id}`);
+  };
+
   return (
     <div className="progress-rail" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(barPct)}>
       <div className="progress-fill" style={{ width: `${barPct}%`, background: fillColor }} />
@@ -52,12 +60,23 @@ export default function ProgressBar({ value = 0 }){
             <li
               key={s.id}
               className={`pc ${reached ? 'reached' : ''}`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Go to step ${i + 1}`}
+              onClick={() => goToStep(i)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  goToStep(i);
+                }
+              }}
             >
               <span
                 className="pc-dot"
                 style={{
                   '--pc-color': 'var(--color-black)',
-                  '--pc-fill-w': reached ? '100%' : '0%'
+                  '--pc-fill-w': reached ? '100%' : '0%',
+                  '--pc-fill-o': reached ? 1 : 0
                 }}
               >
                 <span className="pc-num">{i + 1}</span>
