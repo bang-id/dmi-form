@@ -444,18 +444,21 @@
 
 .likert5{ display:flex; gap:12px; }
 .emoji-btn{
-  width:54px; height:54px; border-radius:12px;
+  width:54px; height:54px; border-radius:99px;
   border:none;
-  background:#ebebeb;
+  background:#fff;
+  border:1px solid var(--color-gray);
   display:grid; 
   place-items:center; 
-  font-size:32px; 
+  font-size:24px; 
   cursor:pointer;
   margin: 2px;
   transition: background .2s ease, transform .08s ease, border-color .2s ease;
 }
 .emoji-btn.active{
   background: var(--color-black); 
+  color:#fff;
+  border-color: var(--color-black);
 }
 
 /* tap down/up animation */

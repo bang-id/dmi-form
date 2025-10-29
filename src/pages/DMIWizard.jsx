@@ -214,6 +214,7 @@ export default function DMIWizard({ step = "org" }){
         created_at: new Date().toISOString(),
         session_id: sessionId,
         is_draft: false, // This is a committed submission
+        score: 0,
         org_country: data.country ?? null,
         org_company: data.company ?? null,
         org_role: data.role ?? null,
@@ -251,6 +252,7 @@ export default function DMIWizard({ step = "org" }){
         created_at: new Date().toISOString(),
         session_id: sessionId,
         is_draft: true,
+        score: 0,
         org_country: values.country ?? null,
         org_company: values.company ?? null,
         org_role: values.role ?? null,
