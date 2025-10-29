@@ -988,6 +988,8 @@ html, body{ overflow:hidden; }
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  animation: dmi-exit-fade .18s ease forwards;
 }
 .dmi-exit-modal {
   background: #fff;
@@ -1001,6 +1003,9 @@ html, body{ overflow:hidden; }
   flex-direction: column;
   align-items: center;
   gap: 32px;
+  opacity: 0;
+  transform: translateY(8px) scale(.98);
+  animation: dmi-exit-pop .22s cubic-bezier(.22,.61,.36,1) forwards;
 }
 .dmi-exit-head{ display:flex; flex-direction:column; align-items:center; gap:24px; }
 .dmi-exit-icon{ width:42px; height:auto; flex-shrink:0; }
@@ -1030,4 +1035,20 @@ html, body{ overflow:hidden; }
   .dmi-exit-message { font-size: 1.3rem; }
   .dmi-exit-btns { gap: 8px; flex-direction: column; width: 100%; }
   .dmi-exit-btns .btn { width: 100%; }
+}
+
+/* Modal entrance animations */
+@keyframes dmi-exit-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes dmi-exit-pop {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce){
+  .dmi-exit-modal-bk{ animation: none; opacity: 1; }
+  .dmi-exit-modal{ animation: none; opacity: 1; transform: none; }
 }
